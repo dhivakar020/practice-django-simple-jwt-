@@ -45,15 +45,34 @@ def login_view(request):
         if user:
             # Generate JWT token
             refresh = RefreshToken.for_user(user)
-            role_redirect_url = '/rider-dashboard/' if user.role == 'rider' else '/driver-dashboard/'
+            # Determine the role-based redirect URL
+            if user.role == 'driver':
+                redirect_url = '/users/driver-dashboard/'
+            else:
+                redirect_url = '/users/rider-dashboard/'
 
             return Response({
                 'message': 'Login successful!',
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 'role': user.role,
-                'redirect_url': role_redirect_url,
+                'redirect_url': redirect_url,
             }, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def login_page(request):
+    return render(request, 'users/login.html')
+
+@api_view(['GET'])
+def signup_page(request):
+    return render(request, 'users/register.html')
+
+@api_view(['GET'])
+def rider_dashboard(request):
+    return render(request, 'users/rider_page.html')
+
+@api_view(['GET'])
+def driver_dashboard(request):
+    return render(request, 'users/driver_page.html')

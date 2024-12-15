@@ -18,6 +18,37 @@ Content-Type: application/json
   "password": "password123"
 }
 
+
+### Signup (POST)
+POST http://127.0.0.1:8000/users/register/
+Content-Type: application/json
+
+{
+  "email": "driver1@example.com",
+  "password": "password123",
+  "role": "driver"
+}
+
+
+### Login (POST)
+POST http://127.0.0.1:8000/users/login/
+Content-Type: application/json
+
+{
+  "email": "driver1@example.com",
+  "password": "password123"
+}
+
+
+
+
+
+
+
+
+
+
+
 ### Invalid Signup (GET)
 GET http://127.0.0.1:8000/users/register/
 Content-Type: application/json
